@@ -19,16 +19,16 @@ public class Fornecedor {
     private String nome;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String cnpj;
 
     public Fornecedor() {
     }
 
-    public Fornecedor(String nome, String email) {
+    public Fornecedor(String nome, String cnpj) {
         this.nome = nome;
-        this.email = email;
+        this.cnpj = cnpj;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -45,11 +45,11 @@ public class Fornecedor {
         this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCnpj() {
+        return cnpj;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 }
