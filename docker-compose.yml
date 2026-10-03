@@ -43,7 +43,6 @@ services:
       # ativa o profile "docker", que faz o config-server servir também
       # produtos-service-docker.properties (sobrescreve a URL do Eureka)
       - SPRING_PROFILES_ACTIVE=docker
-      # troca "localhost" por "eureka-server", idem
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     ports:
       - "8081:8081"
@@ -67,7 +66,8 @@ services:
       - "8082:8082"
     networks:
       - microservicos-net
-  
+
+  # --- Serviço de clientes ---
   clientes-service:
     build: ./clientes-service
     container_name: clientes-service
@@ -76,8 +76,6 @@ services:
       - config-server
     environment:
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
-      # ativa o profile "docker", que faz o config-server servir também
-      # vendas-service-docker.properties (sobrescreve a URL do Eureka)
       - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     ports:
@@ -100,6 +98,24 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     ports:
       - "8084:8084"
+    networks:
+      - microservicos-net
+
+  # --- Serviço de fornecedores (Exercício 11) ---
+  fornecedores-service:
+    build: ./fornecedores-service
+    container_name: fornecedores-service
+    depends_on:
+      - eureka-server
+      - config-server
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      # ativa o profile "docker", que faz o config-server servir também
+      # fornecedores-service-docker.properties (sobrescreve a URL do Eureka)
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    ports:
+      - "8080:8080"
     networks:
       - microservicos-net
 
